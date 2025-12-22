@@ -3,6 +3,7 @@ from database import engine, Model # Импортируем из database.py
 from models.books import BooksModel
 from fastapi import FastAPI
 import uvicorn as uvicorn
+from routers.books import router as books_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,6 +21,7 @@ async def lifespan(app: FastAPI):
 
 # Передаем lifespan в приложение
 app = FastAPI(lifespan=lifespan)
+app.include_router(books_router)
 
 
 if __name__ == "__main__":
