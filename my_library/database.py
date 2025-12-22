@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 # 1. Настройка URL
 # Файл tasks.db создастся в корне проекта
-DATABASE_URL = "sqlite+aiosqlite:///books.db"
+DATABASE_URL = "sqlite+aiosqlite:///library.db"
 
 # 2. Создание движка
 engine = create_async_engine(DATABASE_URL)
