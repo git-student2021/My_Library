@@ -8,7 +8,7 @@ from repository.book import BookRepository  # Импортируем наш но
 router = APIRouter(prefix="/books", tags=["Книги"])
 
 @router.post("", response_model=SBook)
-async def create_task(
+async def create_book(
     task: SBookAdd,
     session: SessionDep,
 ):
@@ -18,7 +18,7 @@ async def create_task(
     return task_model
 
 @router.get("", response_model=list[SBook])
-async def get_tasks(
+async def get_books(
     session: SessionDep,
 ):
     # Роутер не знает, как выполняется поиск (SQL? Файл? API?).

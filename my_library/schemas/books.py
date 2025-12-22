@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+
 # 1. Базовый класс (общие поля)
 class SBookBase(BaseModel):
     title: str

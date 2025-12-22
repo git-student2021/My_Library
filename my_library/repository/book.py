@@ -9,10 +9,10 @@ class BookRepository:
     @classmethod
     async def add_one(cls, data: SBookAdd, session: AsyncSession) -> BooksModel:
         # 1. Превращаем данные из Pydantic в словарь
-        task_dict = data.model_dump()
+        book_dict = data.model_dump()
         
         # 2. Создаем объект модели
-        book = BooksModel(**task_dict)
+        book = BooksModel(**book_dict)
         
         # 3. Добавляем и сохраняем
         session.add(book)
