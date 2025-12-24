@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.books import BooksModel
@@ -29,7 +29,6 @@ class BookRepository:
         books_models = result.scalars().all()
         return books_models
     
-
     @classmethod
     async def get_book_by_id(cls, session: AsyncSession, book_id: int):
         # 1. Готовим запрос
@@ -50,3 +49,12 @@ class BookRepository:
             await session.execute(stmt)
             await session.commit()
             return book_data
+
+    @classmethod
+    async def delete_book(cls, book_id: int, session: AsyncSession):
+        stmt = select(BooksModel).where(BooksModel.id == book_id)
+        result = await session.scalars(stmt)
+        if result.first():
+            await session.execute(delete(BooksModel).where(BooksModel.id == book_id))
+            await session.commit()
+            return True
