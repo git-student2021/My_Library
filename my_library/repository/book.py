@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.books import BooksModel
@@ -38,3 +38,15 @@ class BookRepository:
         result = await session.execute(query)
         # # 3. Возвращаем список объектов
         return result.one_or_none()
+    
+    @classmethod
+    async def update_book(cls, book_id: int, book: SBookAdd, session: AsyncSession):
+        stmt = select(BooksModel).where(BooksModel.id == book_id)
+        book_db = await session.scalars(stmt)
+        if book_db.first():
+            book_data = book.model_dump()
+            book_data["id"] = book_id
+            stmt = update(BooksModel).where(BooksModel.id == book_id).values(book_data)
+            await session.execute(stmt)
+            await session.commit()
+            return book_data

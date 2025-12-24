@@ -27,7 +27,7 @@ async def get_books(
     return books
 
 
-@router.get("/{id}", response_model=list[SBook])
+@router.get("/{id: int}", response_model=list[SBook])
 async def get_book_by_id(
     session: SessionDep,
     id: int
@@ -37,8 +37,20 @@ async def get_book_by_id(
     book = await BookRepository.get_book_by_id(session, id)
     if book: 
         return book
-    
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND, 
         detail= "Книга не найдена"
     )
+
+
+@router.put("/{id:int}", response_model=SBook)
+async def update_book(
+    session: SessionDep,
+    id: int,
+    book: SBookAdd
+):
+    book = await BookRepository.update_book(id, book, session)
+    if book:
+        return book
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Книга не найдена")
+
